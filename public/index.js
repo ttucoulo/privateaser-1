@@ -36,6 +36,24 @@ function adapt_group_price(bars, events){
 		}
 	}
 }
+
+function update_ins_treas_priv(bars,events){
+	var price=0;
+	var commission=0;
+	var insurance=0;
+	var treasury=0;
+	var privateaser=0;
+	for(var j=0;j<events.length;j++){
+		price=events[j].price;
+		commission=price*0.3;
+		insurance=commission/2;
+		treasury=events[j].persons;
+		privateaser=commission-(insurance+treasury);
+		events[j].commission.insurance=insurance;
+		events[j].commission.treasury=treasury;
+		events[j].commission.privateaser=privateaser;
+	}
+}
 	
 	
 
@@ -185,6 +203,7 @@ const actors = [{
 
 calculate_price(bars,events);
 adapt_group_price(bars,events);
+update_ins_treas_priv(bars,events);
 console.log(bars);
 console.log(events);
 console.log(actors);
