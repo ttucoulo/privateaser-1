@@ -63,6 +63,34 @@ function deductible_reduction(bars,events){
 	}
 }
 
+function compute_credit_debit(bars,events,actors){
+	var actor_id;
+	for(var i=0;i<actors.length;i++){
+		actor_id=actors[i].eventId;
+		var price_booker=0;
+		var price_insurance=0;
+		var price_treasury=0;
+		var price_privateaser=0;
+		for(var j=0;j<events.length;j++){
+			if(events[j].id==actor_id){
+				price_booker=events[j].price;
+				price_insurance=events[j].commission.insurance;
+				price_treasury=events[j].commission.treasury;
+				if(events[j].options.deductibleReduction==true){
+					price_privateaser=events[j].commission.privateaser+events[j].persons;
+				}
+				else price_privateaser=events[j].commission.privateaser;
+			}
+		}
+		actors[i].payment[0].amount=price_booker;
+		actors[i].payment[1].amount=price_booker*0.7;
+		actors[i].payment[2].amount=price_insurance;
+		actors[i].payment[3].amount=price_treasury;
+		actors[i].payment[4].amount=price_privateaser;
+	}
+	
+}
+
 
 const bars = [{
   'id': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
@@ -211,6 +239,7 @@ calculate_price(bars,events);
 adapt_group_price(bars,events);
 update_ins_treas_priv(bars,events);
 deductible_reduction(bars,events);
+compute_credit_debit(bars,events,actors);
 console.log(bars);
 console.log(events);
 console.log(actors);
