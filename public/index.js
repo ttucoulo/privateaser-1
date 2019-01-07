@@ -3,6 +3,30 @@
 //list of bats
 //useful for ALL 5 steps
 //could be an array of objects that you fetched from api or database
+
+function calculate_price(bars, events){
+	for(var j=0;j<events.length;j++){
+		var id_bar=events[j].barId;
+		var pricePerH=0;
+		var pricePerP=0;
+		for(var i= 0; i < bars.length; i++)
+		{
+			if(bars[i].id==id_bar){
+				pricePerH=bars[i].pricePerHour;
+				pricePerP=bars[i].pricePerPerson;
+				//break;
+			}
+		}
+		var time_component=pricePerH*events[j].time;
+		var people_component=pricePerP*events[j].persons;
+		var new_price=time_component+people_component;
+		events[j].price=new_price;
+	}
+}
+	
+	
+
+
 const bars = [{
   'id': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
   'name': 'freemousse-bar',
@@ -146,6 +170,7 @@ const actors = [{
   }]
 }];
 
+calculate_price(bars,events);
 console.log(bars);
 console.log(events);
 console.log(actors);
