@@ -14,13 +14,26 @@ function calculate_price(bars, events){
 			if(bars[i].id==id_bar){
 				pricePerH=bars[i].pricePerHour;
 				pricePerP=bars[i].pricePerPerson;
-				//break;
 			}
 		}
 		var time_component=pricePerH*events[j].time;
 		var people_component=pricePerP*events[j].persons;
 		var new_price=time_component+people_component;
 		events[j].price=new_price;
+	}
+}
+
+function adapt_group_price(bars, events){
+	for(var j=0;j<events.length;j++){
+		if(events[j].persons>60){
+			events[j].price=events[j].price*0.5;
+		}
+		else if(events[j].persons>20){
+			events[j].price=events[j].price*0.7;
+		}
+		else if(events[j].persons>10){
+			events[j].price=events[j].price*0.9;
+		}
 	}
 }
 	
@@ -171,6 +184,7 @@ const actors = [{
 }];
 
 calculate_price(bars,events);
+adapt_group_price(bars,events);
 console.log(bars);
 console.log(events);
 console.log(actors);
