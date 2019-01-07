@@ -55,7 +55,13 @@ function update_ins_treas_priv(bars,events){
 	}
 }
 	
-	
+function deductible_reduction(bars,events){
+	for(var j=0;j<events.length;j++){
+			if(events[j].options.deductibleReduction==true){
+				events[j].price=events[j].price+events[j].persons;
+			}
+	}
+}
 
 
 const bars = [{
@@ -204,6 +210,7 @@ const actors = [{
 calculate_price(bars,events);
 adapt_group_price(bars,events);
 update_ins_treas_priv(bars,events);
+deductible_reduction(bars,events);
 console.log(bars);
 console.log(events);
 console.log(actors);
